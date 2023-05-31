@@ -957,6 +957,11 @@
         <LayAsnName>.\README.md</LayAsnName>
         <LayAsnLayerName>App</LayAsnLayerName>
       </LayAsnItem>
+      <LayAsnItem>
+        <LayAsnType>1</LayAsnType>
+        <LayAsnName>Keil.ARM Compiler::Compiler:Event Recorder</LayAsnName>
+        <LayAsnLayerName>Board</LayAsnLayerName>
+      </LayAsnItem>
     </LayAssign>
   </LayerInfo>
 

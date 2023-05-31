@@ -47,6 +47,8 @@ mkdir "Azure_MQTT_Demo"
 mkdir "Google_MQTT_Demo"
 mkdir "Paho_MQTT_Demo"
 mkdir "Watson_MQTT_Demo"
+mkdir "MDK_MW_USBD_HID"
+mkdir "MDK_MW_USBD_MassStorage"
 popd
 
 mkdir "RTOS"
@@ -140,7 +142,14 @@ rm -r "${temp_path}"
 cbuildgen "${project_path}/Watson_MQTT_Demo/MCB4300_MW-Network_ETH_RTX/watson_mqtt_demo.MCB4300.cprj" extract --outdir="${temp_path}"
 cp -r "${temp_path}/App/."    "${layer_path}/App/Watson_MQTT_Demo"
 cp -r "${temp_path}/Socket/." "${layer_path}/Socket/MW-Network_ETH"
-cp -r "${temp_path}/Board/."  "${layer_path}/Board/MCB4300"
+rm -r "${temp_path}"
+
+cbuildgen "${project_path}/MDK-Middleware/USB/Device/HID/MCB4300/HID.MCB4300.cprj" extract --outdir="${temp_path}"
+cp -r "${temp_path}/App/."    "${layer_path}/App/MDK_MW_USBD_HID"
+rm -r "${temp_path}"
+
+cbuildgen "${project_path}/MDK-Middleware/USB/Device/MassStorage/MCB4300/MassStorage.MCB4300.cprj" extract --outdir="${temp_path}"
+cp -r "${temp_path}/App/."    "${layer_path}/App/MDK_MW_USBD_MassStorage"
 rm -r "${temp_path}"
 
 cbuildgen "${project_path}/Platform/32L4R9IDISCOVERY/Platform.32L4R9IDISCOVERY.cprj" extract --outdir="${temp_path}"
@@ -165,6 +174,10 @@ rm -r "${temp_path}"
 
 cbuildgen "${project_path}/Platform/LPCXpresso55S69/Platform.LPCXpresso55S69.cprj" extract --outdir="${temp_path}"
 cp -r "${temp_path}/Board/." "${layer_path}/Board/LPCXpresso55S69"
+rm -r "${temp_path}"
+
+cbuildgen "${project_path}/Platform/MCB4300/Platform.MCB4300.cprj" extract --outdir="${temp_path}"
+cp -r "${temp_path}/Board/." "${layer_path}/Board/MCB4300"
 rm -r "${temp_path}"
 
 cbuildgen "${project_path}/Platform/MIMXRT1064-EVK/Platform.MIMXRT1064-EVK.cprj" extract --outdir="${temp_path}"
@@ -210,3 +223,5 @@ rm "${layer_path}/App/Azure_MQTT_Demo/README.md"
 rm "${layer_path}/App/Google_MQTT_Demo/README.md"
 rm "${layer_path}/App/Paho_MQTT_Demo/README.md"
 rm "${layer_path}/App/Watson_MQTT_Demo/README.md"
+rm "${layer_path}/App/MDK_MW_USBD_HID/README.md"
+rm "${layer_path}/App/MDK_MW_USBD_MassStorage/README.md"

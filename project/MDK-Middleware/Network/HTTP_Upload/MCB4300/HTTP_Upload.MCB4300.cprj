@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<cprj schemaVersion="1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CPRJ.xsd">
+
+  <created timestamp="2022-04-13T11:08:46" tool="uVision V5.36.0.0"/>
+
+  <info>
+    <name>HTTP_Upload</name>
+    <description>MDK-Middleware HTTP Upload Example</description>
+  </info>
+
+  <layers>
+    <layer name="App">
+      <description>MDK-Middleware HTTP Upload Example</description>
+      <doc>https://www.keil.com/pack/doc/MW/Network/html/_h_t_t_p__upload__example.html</doc>
+      <category>MDK-Middleware, Network, Example</category>
+      <license>MDK</license>
+    </layer>
+    <layer name="RTOS">
+      <description>Keil RTX5 open-source real-time operating system with CMSIS-RTOS v2 API</description>
+      <doc>https://www2.keil.com/mdk5/cmsis/rtx</doc>
+      <category>RTOS</category>
+      <license>Apache 2.0</license>
+      <interfaces>
+        <provides id="RTOS2"/>
+      </interfaces>
+    </layer>
+    <layer hasTarget="1" name="Board">
+      <description>Board setup with interfaces</description>
+      <doc>https://www.keil.com/mcb4300/</doc>
+      <category>Board</category>
+      <license>BSD 3-Clause, Apache 2.0</license>
+      <interfaces>
+        <consumes id="RTOS2"/>
+        <provides id="C_CAN" value="0"/>
+        <provides id="C_ETH" value="0"/>
+        <provides id="C_I2C" value="0"/>
+        <provides id="C_I2S" value="0"/>
+        <provides id="C_MCI" value="0"/>
+        <provides id="C_SPI" value="0"/>
+        <provides id="C_UART" value="0"/>
+        <provides id="C_USBD" value="0:HS"/>
+        <provides id="C_USBH" value="0"/>
+        <provides id="C_VIO"/>
+        <provides id="STDOUT"/>
+        <provides id="STDIN"/>
+        <provides id="STDERR"/>
+        <provides id="Heap" value="65536"/>
+      </interfaces>
+    </layer>
+  </layers>
+
+  <packages>
+    <package name="LPC4300_DFP" vendor="Keil"/>
+    <package name="CMSIS" vendor="ARM"/>
+    <package name="CMSIS-Driver" vendor="ARM"/>
+    <package name="ARM_Compiler" vendor="Keil"/>
+    <package name="MDK-Middleware" vendor="Keil"/>
+  </packages>
+
+  <compilers>
+    <compiler name="AC6" version="6.0.0:6.99.99"/>
+  </compilers>
+
+  <target Bname="MCB4300" Bvendor="Keil" Bversion="Ver 1.3" Ddsp="NO_DSP" Dendian="Little-endian" Dfpu="NO_FPU" Dmve="NO_MVE" Dname="LPC4357" Dsecure="Non-secure" Dtz="NO_TZ" Dvendor="NXP:11" Pname="Cortex-M4">
+    <output intdir="./Objects/" name="HTTP_Upload" outdir="./Objects/" type="exe"/>
+    <ldflags add="--strict --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols --info sizes --info totals --info unused --info veneers --entry=Reset_Handler" compiler="AC6" file="./lpc4357.sct"/>
+    <cflags add="-O1 -Wno-documentation -Wno-documentation-unknown-command -Wno-license-management -Wno-missing-noreturn -Wno-missing-prototypes -Wno-missing-variable-declarations -Wno-nonportable-include-path -Wno-packed -Wno-parentheses-equality -Wno-reserved-id-macro -Wno-sign-conversion -Wno-unused-macros -ffunction-sections -fno-rtti -fshort-enums -fshort-wchar -funsigned-char -gdwarf-4 -std=c99 -xc" compiler="AC6"/>
+    <asflags add="-gdwarf-4 -masm=auto" compiler="AC6"/>
+    <includes/>
+    <defines/>
+  </target>
+
+  <components>
+    <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" layer="RTOS"/>
+    <component Cclass="CMSIS" Cgroup="RTOS2" Csub="Keil RTX5" Cvariant="Source" Cvendor="ARM" layer="RTOS">
+      <file attr="config" category="source" name="CMSIS/RTOS2/RTX/Config/RTX_Config.c" version="5.1.1"/>
+      <file attr="config" category="header" name="CMSIS/RTOS2/RTX/Config/RTX_Config.h" version="5.5.2"/>
+    </component>
+    <component Cclass="CMSIS Driver" Cgroup="CAN" Cvendor="Keil" layer="Board"/>
+    <component Cclass="CMSIS Driver" Cgroup="Ethernet MAC" Cvendor="Keil" layer="Board"/>
+    <component Cclass="CMSIS Driver" Cgroup="Ethernet PHY" Csub="DP83848C" Cvendor="Keil" layer="Board"/>
+    <component Cclass="CMSIS Driver" Cgroup="I2C" Cvendor="Keil" layer="Board"/>
+    <component Cclass="CMSIS Driver" Cgroup="MCI" Cvendor="Keil" layer="Board"/>
+    <component Cclass="CMSIS Driver" Cgroup="SAI" Csub="I2S" Cvendor="Keil" layer="Board"/>
+    <component Cclass="CMSIS Driver" Cgroup="SPI" Csub="SSP" Cvendor="Keil" layer="Board"/>
+    <component Cclass="CMSIS Driver" Cgroup="USART" Cvendor="Keil" layer="Board"/>
+    <component Cclass="CMSIS Driver" Cgroup="USB Device" Csub="USB0" Cvendor="Keil" layer="Board"/>
+    <component Cclass="CMSIS Driver" Cgroup="USB Host" Csub="USB0" Cvendor="Keil" layer="Board"/>
+    <component Cclass="CMSIS Driver" Cgroup="VIO" Csub="Custom" Cvendor="ARM" layer="Board"/>
+    <component Cclass="Device" Cgroup="GPDMA" Cvendor="Keil" layer="Board"/>
+    <component Cclass="Device" Cgroup="GPIO" Cvendor="Keil" layer="Board"/>
+    <component Cclass="Device" Cgroup="SCU" Cvendor="Keil" layer="Board"/>
+    <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" layer="Board">
+      <file attr="config" category="source" name="Device/Source/ARM/startup_LPC43xx.s" version="1.0.0"/>
+      <file attr="config" category="source" name="Device/Source/system_LPC43xx.c" version="1.0.3"/>
+      <file attr="config" category="header" name="RTE_Driver/Config/RTE_Device.h" version="2.2.1"/>
+    </component>
+    <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="Event Recorder" Cvariant="DAP" Cvendor="Keil" layer="Board">
+      <file attr="config" category="header" name="Config/EventRecorderConf.h" version="1.1.0"/>
+    </component>
+    <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="I/O" Csub="File" Cvariant="File System" Cvendor="Keil" layer="App"/>
+    <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="I/O" Csub="STDERR" Cvariant="ITM" Cvendor="Keil" layer="Board"/>
+    <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="I/O" Csub="STDIN" Cvariant="ITM" Cvendor="Keil" layer="Board"/>
+    <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="I/O" Csub="STDOUT" Cvariant="ITM" Cvendor="Keil" layer="Board"/>
+    <component Cbundle="MCB4300" Cclass="Board Support" Cgroup="A/D Converter" Cvendor="Keil" layer="Board"/>
+    <component Cbundle="MCB4300" Cclass="Board Support" Cgroup="Buttons" Cvendor="Keil" layer="Board"/>
+    <component Cbundle="MCB4300" Cclass="Board Support" Cgroup="Graphic LCD" Cvendor="Keil" layer="Board"/>
+    <component Cbundle="MCB4300" Cclass="Board Support" Cgroup="LED" Cvendor="Keil" layer="Board"/>
+    <component Cbundle="MDK-Pro" Cclass="File System" Cgroup="CORE" Cvariant="LFN Debug" Cvendor="Keil" layer="App">
+      <file attr="config" category="source" name="FileSystem/Config/FS_Config.c" version="6.3.0"/>
+      <file attr="config" category="source" name="FileSystem/Config/FS_Debug.c" version="1.0.0"/>
+    </component>
+    <component Cbundle="MDK-Pro" Cclass="File System" Cgroup="Drive" Csub="Memory Card" Cvendor="Keil" instances="1" layer="App">
+      <file attr="config" category="header" name="FileSystem/Config/FS_Config_MC.h" version="6.2"/>
+    </component>
+    <component Cbundle="MDK-Pro" Cclass="Network" Cgroup="CORE" Cvariant="IPv4/IPv6 Debug" Cvendor="Keil" layer="App">
+      <file attr="config" category="source" name="Network/Config/Net_Config.c" version="7.1.0"/>
+      <file attr="config" category="source" name="Network/Config/Net_Debug.c" version="7.1.0"/>
+    </component>
+    <component Cbundle="MDK-Pro" Cclass="Network" Cgroup="Interface" Csub="ETH" Cvendor="Keil" instances="1" layer="App">
+      <file attr="config" category="header" name="Network/Config/Net_Config_ETH.h" version="7.4.0"/>
+    </component>
+    <component Cbundle="MDK-Pro" Cclass="Network" Cgroup="Service" Csub="Web Server" Cvariant="HTTP" Cvendor="Keil" layer="App">
+      <file attr="config" category="header" name="Network/Config/Net_Config_HTTP_Server.h" version="7.2.0"/>
+    </component>
+    <component Cbundle="MDK-Pro" Cclass="Network" Cgroup="Socket" Csub="TCP" Cvendor="Keil" layer="App">
+      <file attr="config" category="header" name="Network/Config/Net_Config_TCP.h" version="7.1.1"/>
+    </component>
+    <component Cbundle="MDK-Pro" Cclass="Network" Cgroup="Socket" Csub="UDP" Cvendor="Keil" layer="App">
+      <file attr="config" category="header" name="Network/Config/Net_Config_UDP.h" version="5.1.0"/>
+    </component>
+  </components>
+
+  <files>
+    <group layer="App" name="App">
+      <file category="sourceC" layer="App" name="./HTTP_Upload.c"/>
+      <file category="sourceC" layer="App" name="./HTTP_Server_CGI.c"/>
+      <file category="sourceC" layer="App" name="Web/Web.c"/>
+    </group>
+    <group layer="Board" name="Board">
+      <file category="sourceC" layer="Board" name="./main.c"/>
+      <file category="header" layer="Board" name="./main.h"/>
+      <file category="linkerScript" layer="Board" name="./lpc4357.sct"/>
+    </group>
+    <group layer="Board" name="Board IO">
+      <file category="sourceC" layer="Board" name="./Board_IO/vio_MCB4300.c"/>
+    </group>
+    <group layer="App" name="Documentation">
+      <file category="doc" layer="App" name="./README.md"/>
+    </group>
+  </files>
+
+</cprj>

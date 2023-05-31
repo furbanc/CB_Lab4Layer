@@ -200,17 +200,18 @@ pushd "${target}"
 echo "Output:  ${app}/${target}"
 echo "Project: ${app}.cprj"   
 
-# <name> is derived from "App" layer's title
-# <description> is derived from "App" layer's description
-name=$(sed -nr 's|.*<layer name="App" title="(.*)">|\1|p' "../../${layerpath}/App/${app}/App.clayer")
-description=$(sed -n '/<layer name="App"/,/<description>/p' "../../${layerpath}/App/${app}/App.clayer" | sed -nr 's|.*<description>(.*)</description>|\1|p')
-
 # compose project from layers
-cbuildgen compose "${app}.cprj" ${clayer} --name="${name}" --description="${description}"
+cbuildgen compose "${app}.cprj" ${clayer}
 
 # export layer defines
 export ARDUINO_USART_NUMBER=$(grep -o '<provides id="A_UART" value="."' "${app}.cprj" | grep -o 'value="."' | grep -o '\([0-9.]*\)')
 export ARDUINO_SPI_NUMBER=$(grep -o '<provides id="A_SPI" value="."' "${app}.cprj" | grep -o 'value="."' | grep -o '\([0-9.]*\)')
+
+# export USB Device settings
+       CMSIS_USBD_VALUE=$(      grep '<provides id="C_USBD"' "${app}.cprj" | grep -o 'value=".*"' | grep -o '".*"' | sed -E 's/"//g')
+export CMSIS_USBD_PORT=$(       echo $CMSIS_USBD_VALUE | sed -E 's/([^A-Za-z0-9]*([A-Za-z0-9]*)){1}.*/\2/')
+export CMSIS_USBD_SPEED=$(      echo $CMSIS_USBD_VALUE | sed -E 's/([^A-Za-z0-9]*([A-Za-z0-9]*)){2}.*/\2/' | sed -E 's/FS/0/' | sed -E 's/HS/1/')
+export CMSIS_USBD_MAX_PACKET0=$(echo $CMSIS_USBD_VALUE | sed -E 's/([^A-Za-z0-9]*([A-Za-z0-9]*)){3}.*/\2/')
 
 # export MCI settings
        CMSIS_MCI_VALUE=$(       grep '<provides id="C_MCI"' "${app}.cprj" | grep -o 'value=".*"' | grep -o '".*"' | sed -E 's/"//g')
@@ -258,6 +259,13 @@ do
   rm -f "layer.${item}.sh"
   rm -f "${item}.clayer"
 done
+
+# replace generated cprj description with <name> and <description>
+#  <name> is derived from "App" layer's title
+#  <description> is derived from "App" layer's description
+name=$(sed -nr 's|.*<layer name="App" title="(.*)">|<name>\1</name>|p' "${app}.cprj")
+description=$(sed -n '/<layer name="App"/,/<description>/p' "${app}.cprj" | sed -n '/<description>/p' | sed 's/^ */    /')
+sed -i "s|<description>Automatic generated project</description>|${name}\n${description}|" "${app}.cprj"
 
 popd
 
